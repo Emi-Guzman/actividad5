@@ -19,7 +19,7 @@ tiles = list('ABCDEFGHIJKLMNOPQRSTUVWXYZ') + ['AA','BB','CC','DD','EE','FF']
 tiles = tiles * 2
 state = {'mark': None}
 hide = [True] * 64
-
+count = 0
 
 def square(x, y):
     """Draw white square with black outline at (x, y)."""
@@ -38,6 +38,7 @@ def index(x, y):
     """Convert (x, y) coordinates to tiles index."""
     return int((x + 200) // 50 + ((y + 200) // 50) * 8)
 
+return
 
 def xy(count):
     """Convert tiles count to (x, y) coordinates."""
@@ -46,6 +47,11 @@ def xy(count):
 
 def tap(x, y):
     """Update mark and hidden tiles based on tap."""
+    global taps
+    taps += 1
+    print("Numero de taps: ", taps)
+
+
     spot = index(x, y)
     mark = state['mark']
 
@@ -83,6 +89,13 @@ def draw():
             color("black")
             write(tiles[mark], font=('Arial', 23, 'normal'))
         
+    if all(not h for h in hide):
+        up()
+        goto(0,0)
+        color('green')
+        write('Has ganado tilin insano', align='center')
+        return
+
 
     update()
     ontimer(draw, 100)
